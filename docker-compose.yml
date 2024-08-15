@@ -1,48 +1,52 @@
-
+version: '3.9'
 services:
-  db:
-    image: postgres
-    container_name: aws_psql
+  aws_psql:
+    image: postgres:alpine
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    container_name: "${DB_HOST:-aws_psql}"
+    restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASS}
-      POSTGRES_DB: ${DB_NAME}
-    networks:
-      - iff
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASS:-1q2w3e4r}
+      - POSTGRES_DB=${DB_NAME:-aws_db}
     volumes:
-      - postgres-vol:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      - pg-data:/var/lib/postgresql/data
     networks:
       - iff
-    ports:
-      - "8080:80"
 
   app:
-    build: .
-    container_name: app
-    environment:
-      PORT: ${PORT}
-      DB_HOST: ${DB_HOST}
-      DB_USER: ${DB_USER}
-      DB_PASS: ${DB_PASS}
-      DB_NAME: ${DB_NAME}
-      DB_PORT: ${DB_PORT}
+    ports:
+      - "${PORT:-3000}:3000"
     networks:
       - iff
+    container_name: aws_app
+    links:
+      - aws_psql
+    depends_on:
+      - aws_psql
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    container_name: aws_pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-lucasmarvilla@gmail.com}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-1q2w3e4r}
     ports:
-      - "${PORT}:3000"
+      - '8080:80'
+    links:
+      - aws_psql
+    depends_on:
+      - aws_psql
+    networks:
+      - iff
 
 networks:
   iff:
     driver: bridge
 
 volumes:
-  postgres-vol:
+  pg-data:
