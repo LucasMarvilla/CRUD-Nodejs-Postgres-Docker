@@ -22,7 +22,7 @@ const buscarUm = (codigo) => {
       if (results.rows.length > 0) {
         resolve(results.rows[0]);
       } else {
-        resolve(null); // Use null se não encontrar o carro
+        resolve(null); 
       }
     });
   });

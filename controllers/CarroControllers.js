@@ -14,7 +14,6 @@ const buscarTodos = async (req, res) => {
             });
         }
 
-        // Renderiza a visualização com os resultados
         res.render('carros', { carros: json.result });
     } catch (error) {
         json.error = 'Erro ao buscar os carros';
@@ -28,7 +27,6 @@ const buscarUm = async (req, res) => {
     try {
         const carro = await CarroServices.buscarUm(codigo);
 
-        // Renderiza a página com o resultado ou com uma mensagem de erro
         res.render('result-page', { data: {
             error: carro ? '' : 'Carro não encontrado',
             result: carro || {}
@@ -43,7 +41,7 @@ const buscarUm = async (req, res) => {
 }
 
 const inserir = async (req, res) =>{
-    console.log('Requisição recebida:', req.body);  // Adicione este log
+    console.log('Requisição recebida:', req.body);  
     let json = {error:'', result:{}}
 
     let modelo = req.body.modelo
@@ -84,7 +82,6 @@ const alterar = async (req, res) => {
 
 const excluir = async (req, res) => {
     let json = {error:'', result: {}}
-    //const codigo = req.params.codigo
     const codigo = req.params.codigo
 
     if(codigo){
