@@ -1,0 +1,41 @@
+<!-- src/views/carros.ejs -->
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Carros</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="result-page-container">
+        <div class="result-page-content">
+            <h1>Lista de Carros</h1>
+            <% if (carros.length > 0) { %>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Modelo</th>
+                            <th>Placa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% carros.forEach(carro => { %>
+                            <tr>
+                                <td><%= carro.codigo %></td>
+                                <td><%= carro.modelo %></td>
+                                <td><%= carro.placa %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p>Não há carros disponíveis.</p>
+            <% } %>
+            <a href="/">Voltar para a Página Inicial</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <div class="result-page-container">
+        <div class="result-page-content">
+            <h1>Resultado da Busca</h1>
+            <% if (data.error) { %>
+                <p><strong><%= data.error %></strong></p>
+            <% } else { %>
+                <div class="result-page-result">
+                    <p><strong>Código:</strong> <%= data.result.codigo %></p>
+                    <p><strong>Modelo:</strong> <%= data.result.modelo %></p>
+                    <p><strong>Placa:</strong> <%= data.result.placa %></p>
+                </div>
+            <% } %>
+            <a href="/" class="result-page-link">Voltar</a>
+        </div>
+    </div>
+</body>
+</html>

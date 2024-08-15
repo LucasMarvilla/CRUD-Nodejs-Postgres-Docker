@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Carros</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Inserir Dados</h2>
+    <form id="contact-form">
+        <label for="contact-modelo">Modelo:</label>
+        <input type="text" id="contact-modelo" name="modelo" required>
+        <br><br>
+
+        <label for="contact-placa">Placa:</label>
+        <input type="text" id="contact-placa" name="placa" required>
+        <br><br>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <h2>Deletar Item</h2>
+    <form id="delete-form">
+        <p>Insira o código para deletar:</p>
+        <label for="delete-codigo">Código:</label>
+        <input type="text" id="delete-codigo" name="codigo" required>
+        <br><br>
+
+        <button type="submit">Deletar</button>
+    </form>
+
+    <h2>Atualizar Item</h2>
+    <form id="update-form">
+        <p>Insira o código e os novos valores para atualizar:</p>
+        <label for="update-codigo">Código:</label>
+        <input type="text" id="update-codigo" name="codigo" required>
+        <br><br>
+
+        <label for="update-modelo">Novo Modelo:</label>
+        <input type="text" id="update-modelo" name="modelo" required>
+        <br><br>
+
+        <label for="update-placa">Nova Placa:</label>
+        <input type="text" id="update-placa" name="placa" required>
+        <br><br>
+
+        <button type="submit">Atualizar</button>
+    </form>
+
+    <h2>Buscar um Item</h2>
+    <form id="get-form">
+        <p>Insira o código para buscar:</p>
+        <label for="get-codigo">Código:</label>
+        <input type="text" id="get-codigo" name="codigo" required>
+        <br><br>
+
+        <button type="submit">Buscar</button>
+    </form>
+    
+    <h2>Buscar todos os Itens</h2>
+    <a href="/carros">
+        <button type="button">Ver Lista de Carros</button>
+    </a>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = {
+                modelo: document.getElementById('contact-modelo').value,
+                placa: document.getElementById('contact-placa').value
+            };
+
+            try {
+                const response = await fetch('/submit-form', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+                const result = await response.text();
+                alert(result);
+                location.reload();
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        });
+
+        document.getElementById('delete-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const codigo = document.getElementById('delete-codigo').value;
+
+            try {
+                const response = await fetch(`/carro/${codigo}`, {
+                    method: 'DELETE'
+                });
+                const result = await response.text();
+                alert(result);
+                location.reload();
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        });
+
+        document.getElementById('update-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const codigo = document.getElementById('update-codigo').value;
+            const modelo = document.getElementById('update-modelo').value;
+            const placa = document.getElementById('update-placa').value;
+
+            try {
+                const response = await fetch(`/carro/${codigo}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        modelo: modelo,
+                        placa: placa
+                    })
+                });
+                const result = await response.text();
+                alert(result);
+                location.reload();
+            } catch (error) {
+                console.error('Erro:', error);
+            }
+        });
+
+        document.getElementById('get-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const codigo = document.getElementById('get-codigo').value;
+
+            // Redireciona para a página de resultados
+            window.location.href = `/result-page/${codigo}`;
+        });
+
+    </script>
+</body>
+</html>

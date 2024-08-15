@@ -1,0 +1,48 @@
+
+services:
+  db:
+    image: postgres
+    container_name: aws_psql
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    networks:
+      - iff
+    volumes:
+      - postgres-vol:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    networks:
+      - iff
+    ports:
+      - "8080:80"
+
+  app:
+    build: .
+    container_name: app
+    environment:
+      PORT: ${PORT}
+      DB_HOST: ${DB_HOST}
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+    networks:
+      - iff
+    ports:
+      - "${PORT}:3000"
+
+networks:
+  iff:
+    driver: bridge
+
+volumes:
+  postgres-vol:
