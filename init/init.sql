@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS carros (
+    codigo SERIAL PRIMARY KEY,
+    modelo VARCHAR(255) NOT NULL,
+    placa VARCHAR(10) NOT NULL
+);

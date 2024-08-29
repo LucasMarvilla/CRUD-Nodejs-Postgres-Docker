@@ -10,8 +10,10 @@ services:
       - POSTGRES_USER=${DB_USER:-postgres}
       - POSTGRES_PASSWORD=${DB_PASS:-1q2w3e4r}
       - POSTGRES_DB=${DB_NAME:-aws_db}
+      - POSTGRES_INITDB_ARGS=--username=postgres
     volumes:
       - pg-data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
     networks:
       - iff
 
