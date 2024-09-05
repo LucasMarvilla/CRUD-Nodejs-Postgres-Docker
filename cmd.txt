@@ -10,3 +10,28 @@ docker login
 docker push lucasmarvilla/nextjs-docker:v1
 
 docker-compose up -d
+
+
+site: http://107.22.0.24:3000/
+
+
+
+Comandos aws: 
+sudo su ec2-user
+cd ~
+pwd 
+
+cd scripts/
+chmod +x * //dar permissão aos executaveis
+
+cd CRUD-Nodejs-Postgres-Docker/
+
+cd ..
+rm -rf CRUD-Nodejs-Postgres-Docker // caso queira remover pra clonar novamente
+git clone https://github.com/LucasMarvilla/CRUD-Nodejs-Postgres-Docker.git
+
+docker container ls -a  //verificar se existe containers criados
+docker compose down //remover todos os containers
+docker compose up -d
+docker compose build app// reconstruir imagem novamente
+docker compose up -d //para recriar a imagem
