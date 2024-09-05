@@ -3,13 +3,13 @@ services:
   aws_psql:
     image: postgres:alpine
     ports:
-      - "${DB_PORT:-5432}:5432"
-    container_name: "${DB_HOST:-aws_psql}"
+      - 5432:5432 # ${DB_PORT}:5432
+    container_name: aws_psql #${DB_HOST}
     restart: always
     environment:
-      - POSTGRES_USER=${DB_USER:-postgres}
-      - POSTGRES_PASSWORD=${DB_PASS:-1q2w3e4r}
-      - POSTGRES_DB=${DB_NAME:-aws_db}
+      - POSTGRES_USER=postgres #${DB_USERNAME}
+      - POSTGRES_PASSWORD=1q2w3e4r #${DB_PASSWORD}
+      - POSTGRES_DB=aws_db #${DB_DATABASE}
       - POSTGRES_INITDB_ARGS=--username=postgres
     volumes:
       - pg-data:/var/lib/postgresql/data
@@ -19,10 +19,16 @@ services:
 
   app:
     ports:
-      - "${PORT:-3000}:3000"
+      - 3000:3000 #${APP_PORT}:3000
     networks:
       - iff
     container_name: aws_app
+    environment:
+          - DB_USERNAME=postgres #${DB_USERNAME}
+          - DB_PASSWORD=lucas123 #${DB_PASSWORD}
+          - DB_DATABASE=aws_db #${DB_DATABASE}
+          - DB_HOST=crud-db.cpp7aaqltvkn.us-east-1.rds.amazonaws.com
+          #${- DB_HOST=aws_psql}
     links:
       - aws_psql
     depends_on:
@@ -35,8 +41,8 @@ services:
     image: dpage/pgadmin4
     container_name: aws_pgadmin
     environment:
-      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL:-lucasmarvilla@gmail.com}
-      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD:-1q2w3e4r}
+      PGADMIN_DEFAULT_EMAIL: lucasmarvilla@gmail.com #${PGADMIN_USER}
+      PGADMIN_DEFAULT_PASSWORD: 1q2w3e4r #${PGADMIN_PASSWORD}
     ports:
       - '8080:80'
     links:
