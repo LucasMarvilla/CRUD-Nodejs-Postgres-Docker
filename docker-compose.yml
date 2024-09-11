@@ -58,3 +58,4 @@ networks:
 
 volumes:
   pg-data:
+  init:
