@@ -19,7 +19,7 @@ services:
 
   app:
     ports:
-      - 3000:3000 #${APP_PORT}:3000
+      - 3001:3001 #${APP_PORT}:3000
     networks:
       - iff
     container_name: aws_app
