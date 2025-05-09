@@ -15,4 +15,5 @@ Esta é uma aplicação CRUD (Criar, Ler, Atualizar, Deletar) full-stack, constr
 - **Express.js**: Framework web para Node.js.
 - **PostgreSQL**: Sistema de gerenciamento de banco de dados relacional.
 - **Docker**: Plataforma de containerização para simplificar o desenvolvimento e a implantação.
+- **AWS**: Plataforma de serviços em nuvem utilizada para hospedar a aplicação e o banco de dados com escalabilidade e alta disponibilidade.
 
